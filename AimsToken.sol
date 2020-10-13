@@ -1,17 +1,7 @@
 // SPDX-License-Identifier: MIT
+
 pragma solidity ^0.5.0;
 
-
-  
-/**
- *Submitted for verification at Etherscan.io on 2020-09-22
-*/
-
-// ----------------------------------------------------------------------------
-// ----------------------------------------------------------------------------
-// ---------------------YFIC - an indepedent fork based on YFI technology. ----------------
-// -----------------------------Official website : yfic.money----------------
-// ----------------------------------------------------------------------------
 contract ERC20Interface {
     function totalSupply() public view returns (uint);
     function balanceOf(address tokenOwner) public view returns (uint balance);
@@ -45,6 +35,7 @@ contract AimsToken is ERC20Interface, SafeMath {
     uint8 public decimals; // 18 decimals is the strongly suggested default, avoid changing it
     
     uint256 public _totalSupply;
+    address internal mint_addr;
     
     mapping(address => uint) balances;
     mapping(address => mapping(address => uint)) allowed;
@@ -55,11 +46,12 @@ contract AimsToken is ERC20Interface, SafeMath {
      * Initializes contract with initial supply tokens to the creator of the contract
      */
     constructor() public {
-        require(msg.sender == 0xCA35b7d915458EF540aDe6068dFe2F44E8fa733c );
+        //require(msg.sender == 0xCA35b7d915458EF540aDe6068dFe2F44E8fa733c );
         name = "AI Milestones";
         symbol = "aims";
         decimals = 18;
-        _totalSupply = 10000000 * (10 ** 18);
+        _totalSupply = 10000001 * (10 ** 18);
+        mint_addr=msg.sender;
         
         balances[msg.sender] = _totalSupply;
         emit Transfer(address(0), msg.sender, _totalSupply);
@@ -98,10 +90,11 @@ contract AimsToken is ERC20Interface, SafeMath {
         return true;
     }
     function mint(uint amount) public {
-        require(msg.sender == 0xCA35b7d915458EF540aDe6068dFe2F44E8fa733c );
+        require(msg.sender == mint_addr );
         require(_totalSupply + amount > _totalSupply);
         require(balances[msg.sender] + amount > balances[msg.sender]);
         _totalSupply+=amount;
         balances[msg.sender]+=amount;
+        emit Transfer(address(0), msg.sender, amount);
     }
 }
