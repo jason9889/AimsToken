@@ -28,7 +28,6 @@ contract SafeMath {
     }
 }
 
-
 contract AimsToken is ERC20Interface, SafeMath {
     string public name;
     string public symbol;
@@ -46,7 +45,6 @@ contract AimsToken is ERC20Interface, SafeMath {
      * Initializes contract with initial supply tokens to the creator of the contract
      */
     constructor() public {
-        //require(msg.sender == 0xCA35b7d915458EF540aDe6068dFe2F44E8fa733c );
         name = "AI Milestones";
         symbol = "aims";
         decimals = 18;
@@ -81,7 +79,6 @@ contract AimsToken is ERC20Interface, SafeMath {
         emit Transfer(msg.sender, to, tokens);
         return true;
     }
-    
     function transferFrom(address from, address to, uint tokens) public returns (bool success) {
         balances[from] = safeSub(balances[from], tokens);
         allowed[from][msg.sender] = safeSub(allowed[from][msg.sender], tokens);
